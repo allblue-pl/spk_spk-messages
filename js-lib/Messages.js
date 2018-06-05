@@ -27,13 +27,18 @@ export default class Messages extends spocky.Module
 
         this._l.$fields.loading.image = this._images.loading;
 
-        this.hideConfirmation();
-        this.hideLoading();
-        this.hideMsg();
+        this.hide();
 
         this._createElems();
 
         this.$view = this._l;
+    }
+
+    hide()
+    {
+        this.hideConfirmation();
+        this.hideLoading();
+        this.hideMessage();
     }
 
     hideConfirmation(result = false)
@@ -59,9 +64,9 @@ export default class Messages extends spocky.Module
         };
     }
 
-    hideMsg()
+    hideMessage()
     {
-        this._l.$fields.msg = {
+        this._l.$fields.message = {
             show: false,
             image: '',
             text: '',
@@ -93,9 +98,9 @@ export default class Messages extends spocky.Module
         };
     }
 
-    showMsg(imageSrc, text, fn = null)
+    showMessage(imageSrc, text, fn = null)
     {
-        js0.args(arguments, 'string', 'string', [ js0.Default, 'function' ]);
+        js0.args(arguments, 'string', 'string', [ js0.Default, js0.Null, 'function' ]);
 
         this._msg_Fn = fn;
         this._enabled = false;
@@ -107,18 +112,18 @@ export default class Messages extends spocky.Module
         };
     }
 
-    showMsg_Failure(text, fn = null)
+    showMessage_Failure(text, fn = null)
     {
         js0.args(arguments, 'string', [ js0.Default, 'function' ]);
 
-        this.showMsg(this._images.failure, text, fn);
+        this.showMessage(this._images.failure, text, fn);
     }
 
-    showMsg_Success(text, fn = null)
+    showMessage_Success(text, fn = null)
     {
         js0.args(arguments, 'string', [ js0.Default, 'function' ]);
 
-        this.showMsg(this._images.success, text, fn);
+        this.showMessage(this._images.success, text, fn);
     }
 
 
@@ -126,7 +131,7 @@ export default class Messages extends spocky.Module
     {
         this._l.$elems.message.addEventListener('click', (evt) => {
             evt.preventDefault();
-            this.hide();
+            this.hideMessage();
         });
 
         this._l.$elems.yes.addEventListener('click', (evt) => {
