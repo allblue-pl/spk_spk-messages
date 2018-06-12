@@ -98,9 +98,9 @@ export default class Messages extends spocky.Module
         };
     }
 
-    showMessage(imageSrc, text, fn = null)
+    showMessage(imageSrc, text = '', fn = null)
     {
-        js0.args(arguments, 'string', 'string', [ js0.Default, js0.Null, 'function' ]);
+        js0.args(arguments, 'string', [ 'string', js0.Default, ], [ js0.Default, js0.Null, 'function' ]);
 
         this._msg_Fn = fn;
         this._enabled = false;
@@ -112,16 +112,16 @@ export default class Messages extends spocky.Module
         };
     }
 
-    showMessage_Failure(text, fn = null)
+    showMessage_Failure(text = '', fn = null)
     {
-        js0.args(arguments, 'string', [ js0.Default, 'function' ]);
+        js0.args(arguments, [ 'string', js0.Default, ], [ js0.Default, 'function' ]);
 
         this.showMessage(this._images.failure, text, fn);
     }
 
-    showMessage_Success(text, fn = null)
+    showMessage_Success(text = '', fn = null)
     {
-        js0.args(arguments, 'string', [ js0.Default, 'function' ]);
+        js0.args(arguments, [ 'string', js0.Default, ], [ js0.Default, 'function' ]);
 
         this.showMessage(this._images.success, text, fn);
     }
