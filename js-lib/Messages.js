@@ -73,8 +73,9 @@ export default class Messages extends spocky.Module
         };
 
         if (this._msg_Fn !== null) {
-            this._msg_Fn();
+            let msgFn = this._msg_Fn;
             this._msg_Fn = null;
+            msgFn();
         }
     }
 
