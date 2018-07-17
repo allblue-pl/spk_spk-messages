@@ -18,6 +18,8 @@ export default class Messages extends spocky.Module
             failure: 'string',
         }));
 
+        this._loading = false;
+
         this._images = images;
 
         this._msg_Fn = null;
@@ -58,6 +60,7 @@ export default class Messages extends spocky.Module
 
     hideLoading()
     {
+        this._loading = false;
         this._l.$fields.loading = {
             show: false,
             text: '',
@@ -93,10 +96,16 @@ export default class Messages extends spocky.Module
 
     showLoading(text = '')
     {
-        this._l.$fields.loading = {
-            text: text,
-            show: true,
-        };
+        this._loading = true;
+        setTimeout(() => {
+            if (!this._loading)
+                return;
+
+            this._l.$fields.loading = {
+                text: text,
+                show: true,
+            };
+        }, 500);
     }
 
     showMessage(imageSrc, text = '', fn = null)
