@@ -18,7 +18,11 @@ export default class Messages extends spocky.Module
             failure: 'string',
         }));
 
+        this.loading_MinTime = 500;
+        this.loading_Timeout = 500;
+
         this._loading = false;
+        this._loading_Start = null;
 
         this._images = images;
 
@@ -61,10 +65,24 @@ export default class Messages extends spocky.Module
     hideLoading()
     {
         this._loading = false;
-        this._l.$fields.loading = {
-            show: false,
-            text: '',
-        };
+
+        let loadingTimeLeft = 1;
+        if (this._loading_Start !== null) {
+            loadingTimeLeft = Math.max(this.loading_MinTime - 
+                ((new Date()).getTime() - this._loading_Start), 1);
+        }
+
+        setTimeout(() => {
+            if (this._loading)
+                return;
+
+            this._loading_Start = null;
+            this._l.$fields.loading = {
+                show: false,
+                text: '',
+            };
+        }, loadingTimeLeft);
+
     }
 
     hideMessage()
@@ -101,11 +119,12 @@ export default class Messages extends spocky.Module
             if (!this._loading)
                 return;
 
+            this._loading_Start = (new Date()).getTime();
             this._l.$fields.loading = {
                 text: text,
                 show: true,
             };
-        }, 500);
+        }, this.loading_Timeout);
     }
 
     showMessage(imageSrc, text = '', fn = null)
