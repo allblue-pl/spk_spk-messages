@@ -10,13 +10,16 @@ const
 export default class Messages extends spocky.Module
 {
 
-    constructor(images)
+    constructor(images, layoutClass = null)
     { super();
         js0.args(arguments, js0.Preset({
             loading: 'string',
             success: 'string',
             failure: 'string',
-        }));
+        }), [ js0.Default(null), spocky.Layout ]);
+
+        if (layoutClass === null)
+            layoutClass = $layouts.Messages;
 
         this.loading_MinTime = 500;
         this.loading_Timeout = 500;
@@ -29,7 +32,7 @@ export default class Messages extends spocky.Module
         this._msg_Fn = null;
         this._confirmation_Fn = null;
 
-        this._l = new $layouts.Messages();
+        this._l = new layoutClass();
 
         this._l.$fields.loading.image = this._images.loading;
 
