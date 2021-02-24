@@ -115,9 +115,19 @@ export default class Messages extends spocky.Module
         };
     }
 
-    showLoading(text = '')
+    showLoading(text = '', instant = false)
     {
         this._loading = true;
+        if (instant) {
+            this._loading_Start = (new Date()).getTime();
+            this._l.$fields.loading = {
+                text: text,
+                show: true,
+            };
+
+            return;
+        }
+
         setTimeout(() => {
             if (!this._loading)
                 return;
