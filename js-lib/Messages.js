@@ -29,16 +29,19 @@ export default class Messages extends spocky.Module
 
         this._images = images;
 
+        this._msg = null;
         this._msg_Fn = null;
+
+        this._confirmation = null;
         this._confirmation_Fn = null;
 
         this._l = new layoutClass();
 
         this._l.$fields.loading.image = this._images.loading;
 
-        this.hide();
-
         this._createElems();
+
+        this.hide();
 
         this.$view = this._l;
     }
@@ -52,8 +55,9 @@ export default class Messages extends spocky.Module
 
     hideConfirmation(result = false)
     {
+        this._confirmation.hide();
+
         this._l.$fields.confirmation = {
-            show: false,
             text: '',
             yes: '',
             no: '',
@@ -90,8 +94,10 @@ export default class Messages extends spocky.Module
 
     hideMessage()
     {
+        this._msg.hide();
+
         this._l.$fields.message = {
-            show: false,
+
             image: '',
             text: '',
         };
@@ -111,8 +117,9 @@ export default class Messages extends spocky.Module
             text: text,
             yes: yesText,
             no: noText,
-            show: true
         };
+
+        this._confirmation.show();
     }
 
     showLoading(text = '', instant = false)
@@ -150,8 +157,9 @@ export default class Messages extends spocky.Module
         this._l.$fields.message = {
             image: imageSrc,
             text: text,
-            show: true
         };
+
+        this._msg.show();
     }
 
     showMessage_Failure(text = '', fn = null)
@@ -171,7 +179,10 @@ export default class Messages extends spocky.Module
 
     _createElems()
     {
-        this._l.$elems.message.addEventListener('click', (evt) => {
+        this._msg = new bootstrap.Modal(this._l.$elems.msg);
+        this._confirmation = new bootstrap.Modal(this._l.$elems.confirmation);
+
+        this._l.$elems.msg.addEventListener('click', (evt) => {
             evt.preventDefault();
             this.hideMessage();
         });

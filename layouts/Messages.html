@@ -1,14 +1,25 @@
 
 <!-- static message -->
-<div _show="message.show" _elem="message" class="abn_message_holder">
-    <div class="abn_message_placer">
-        <div class="abn_message_content">
-            <img _show="message.image" src="$message.image" class="" />
-            <div class="mg-clear"></div>
-            <div class="">
+<!-- NEW -->
+<div  _elem="msg" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">
+                <img _show="message.image" src="$message.image" class="" />
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
                 <p>
                     $message.text
                 </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                    <!-- $texts.buttons_Close -->
+                    Zamknij
+                </button>
             </div>
         </div>
     </div>
@@ -29,25 +40,28 @@
     </div>
 </div>
 
-
-<div _show="confirmation.show" class="abn_message_holder">
-    <div class="abn_message_placer">
-        <div class="abn_message_content abn_message_background">
-            <p class="lead text-center">
-                $confirmation.text
-            </p>
-            <div class="row">
-                <div class="col-sm-6 mb-3">
-                    <a _elem="yes" class="btn btn-success w-100 text-white">
-                        <i class="fa fa-check i-left"> </i>
-                        $confirmation.yes
-                    </a>
-                </div>
-                <div class="col-sm-6 mb-3">
-                    <a _elem="no" class="btn btn-danger w-100 text-white">
-                        <i class="fa fa-times i-left"> </i>
-                        $confirmation.no
-                    </a>
+<!-- NEW -->
+<div _elem="confirmation" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-choice">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">$confirmation.text</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col">
+                        <button _elem="yes" type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">
+                            <i class="fa fa-check i-left"> </i>
+                            $confirmation.yes
+                        </button>
+                    </div>
+                    <div class="col">
+                        <button _elem="no" type="button" class="btn btn-primary w-100">
+                            <i class="fa fa-times i-left"> </i>
+                            $confirmation.no
+                        </button>  
+                    </div>
                 </div>
             </div>
         </div>
