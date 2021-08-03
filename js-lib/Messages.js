@@ -58,6 +58,7 @@ export default class Messages extends spocky.Module
         this._confirmation.hide();
 
         this._l.$fields.confirmation = {
+            title: '',
             text: '',
             yes: '',
             no: '',
@@ -97,8 +98,8 @@ export default class Messages extends spocky.Module
         this._msg.hide();
 
         this._l.$fields.message = {
-
             image: '',
+            title: '',
             text: '',
         };
 
@@ -109,11 +110,15 @@ export default class Messages extends spocky.Module
         }
     }
 
-    showConfirmation(text, yesText, noText, fn)
+    showConfirmation(title, text, yesText, noText, fn = null)
     {
+        js0.args(arguments, 'string', 'string', 'string', 'string', 
+                [ js0.Default, js0.Null, 'function' ])
+
         this._confirmation_Fn = fn;
 
         this._l.$fields.confirmation = {
+            title: title,
             text: text,
             yes: yesText,
             no: noText,
@@ -124,6 +129,9 @@ export default class Messages extends spocky.Module
 
     showLoading(text = '', instant = false)
     {
+        js0.args(arguments, [ 'string', js0.Default ],
+                [ 'boolean', js0.Default ]);
+
         this._loading = true;
         if (instant) {
             this._loading_Start = (new Date()).getTime();
@@ -147,33 +155,37 @@ export default class Messages extends spocky.Module
         }, this.loading_Timeout);
     }
 
-    showMessage(imageSrc, text = '', fn = null)
+    showMessage(imageSrc, title = '', text = '', fn = null)
     {
-        js0.args(arguments, 'string', [ 'string', js0.Default, ], [ js0.Default, js0.Null, 'function' ]);
+        js0.args(arguments, 'string', [ 'string', js0.Default ], 
+                [ 'string', js0.Default, ], [ 'function', js0.Null, js0.Default ]);
 
         this._msg_Fn = fn;
         this._enabled = false;
 
         this._l.$fields.message = {
             image: imageSrc,
+            title: title,
             text: text,
         };
 
         this._msg.show();
     }
 
-    showMessage_Failure(text = '', fn = null)
+    showMessage_Failure(title = '', text = '', fn = null)
     {
-        js0.args(arguments, [ 'string', js0.Default, ], [ js0.Default, 'function' ]);
+        js0.args(arguments, [ 'string', js0.Default, ], [ 'string', js0.Default, ], 
+                [ js0.Default, 'function' ]);
 
-        this.showMessage(this._images.failure, text, fn);
+        this.showMessage(this._images.failure, title, text, fn);
     }
 
-    showMessage_Success(text = '', fn = null)
+    showMessage_Success(title = '', text = '', fn = null)
     {
-        js0.args(arguments, [ 'string', js0.Default, ], [ js0.Default, 'function' ]);
+        js0.args(arguments, [ 'string', js0.Default, ], [ 'string', js0.Default, ], 
+                [ js0.Default, 'function' ]);
 
-        this.showMessage(this._images.success, text, fn);
+        this.showMessage(this._images.success, title, text, fn);
     }
 
 

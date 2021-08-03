@@ -1,12 +1,13 @@
 
 <!-- static message -->
 <!-- NEW -->
-<div  _elem="msg" class="modal" tabindex="-1">
+<div  _elem="msg" class="modal fade" tabindex="-1">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
             <h5 class="modal-title">
                 <img _show="message.image" src="$message.image" class="" />
+                $message.title
             </h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -41,7 +42,7 @@
 </div>
 
 <!-- NEW -->
-<div _elem="confirmation" class="modal" tabindex="-1">
+<div _elem="confirmation" class="modal fade" tabindex="-1">
     <div class="modal-dialog modal-choice">
         <div class="modal-content">
             <div class="modal-header">
