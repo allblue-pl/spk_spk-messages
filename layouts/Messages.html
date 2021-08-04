@@ -1,15 +1,14 @@
 
-<!-- static message -->
-<!-- NEW -->
+<!-- Static message -->
 <div  _elem="msg" class="modal fade" tabindex="-1">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title">
-                <img _show="message.image" src="$message.image" class="" />
-                $message.title
-            </h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title">
+                    <img _show="message.image" src="$message.image" class="" />
+                    $message.title
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <p>
@@ -18,30 +17,22 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
-                    <!-- $texts.buttons_Close -->
-                    Zamknij
+                    $texts.buttons_Close
                 </button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- loading gif and message -->
-<div _show="loading.show" class="abn_message_holder">    
-    <div class="abn_message_placer">
-        <div class="abn_message_content">
-            <img class="img-responsive" src="$loading.image" class="" />
-            <div class="mg-clear"></div>
-            <div class="">
-                <p>
-                     $loading.text
-                </p>
-            </div>
-        </div>
+<!-- Loading -->
+<div  _show="loading.show" class="loader-holder">
+    <div class="d-flex align-items-center">
+        <div class="spinner-border me-3 text-primary" role="status" aria-hidden="true"></div>
+        <strong>Loading...</strong>
     </div>
 </div>
 
-<!-- NEW -->
+<!-- Dialog -->
 <div _elem="confirmation" class="modal fade" tabindex="-1">
     <div class="modal-dialog modal-choice">
         <div class="modal-content">
