@@ -1,4 +1,40 @@
 'use strict';
 
+const
+    js0 = require('js0')
+;
 
-export const Messages = require('./Messages');
+class spkMessages_Class
+{
+
+    get Messages() {
+        return require('./Messages');
+    }
+
+
+    constructor()
+    {
+        this._textFn = (text) => {
+            return this._texts[text];
+        };  
+        this._texts = {
+            Close: 'Close',
+        };
+    }
+
+    setTextFn(textFn)
+    {
+        js0.args(arguments, 'function');
+
+        this._textFn = textFn;
+    }
+
+    text(text)
+    {
+        js0.args(arguments, 'string');
+
+        return this._textFn(text);
+    }
+
+}
+export default spkMessages = new spkMessages_Class();

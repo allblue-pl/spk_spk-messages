@@ -4,19 +4,29 @@ const
     js0 = require('js0'),
     spocky = require('spocky'),
 
+    spkMessages = require('.'),
+
     $layouts = require('./$layouts')
 ;
 
 export default class Messages extends spocky.Module
 {
 
-    constructor(images, layoutClass = null)
+    constructor(presets = {}, layoutClass = null)
     { super();
-        js0.args(arguments, js0.Preset({
-            loading: 'string',
-            success: 'string',
-            failure: 'string',
-        }), [ js0.Default(null), spocky.Layout ]);
+        js0.args(arguments, [ js0.RawObject, js0.Default ], [ spocky.Layout, js0.Default(null) ]);
+        js0.typeE(presets, js0.Preset({
+            modulePath: [ 'string', js0.Default('/dev/node_modules/spk-messages/'), ],
+            images: [ js0.Preset({
+                loading: [ 'string', js0.Default('/dev/node_modules/spk-messages/images/loading.gif') ],
+                success: [ 'string', js0.Default('/dev/node_modules/spk-messages/images/success.png') ],
+                failure: [ 'string', js0.Default('/dev/node_modules/spk-messages/images/failure.png') ],
+            }), js0.Default({
+                loading: '/dev/node_modules/spk-messages/images/loading.gif',
+                success: '/dev/node_modules/spk-messages/images/success.png',
+                failure: '/dev/node_modules/spk-messages/images/failure.png',
+            }) ],
+        }));
 
         if (layoutClass === null)
             layoutClass = $layouts.Messages;
@@ -27,7 +37,7 @@ export default class Messages extends spocky.Module
         this._loading = false;
         this._loading_Start = null;
 
-        this._images = images;
+        this._images = presets.images;
 
         this._msg = null;
         this._msg_Fn = null;
@@ -38,6 +48,9 @@ export default class Messages extends spocky.Module
         this._l = new layoutClass();
 
         this._l.$fields.loading.image = this._images.loading;
+        this._l.$fields.text = (text) => {
+            return spkMessages.text(text);
+        }
 
         this._createElems();
 

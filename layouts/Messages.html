@@ -3,21 +3,21 @@
 <div  _elem="msg" class="modal fade" tabindex="-1">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
-            <div class="modal-header">
+            <img _show="message.image" src="$message.image" class="" />
+            <div _show="message.title" class="modal-header">
                 <h5 class="modal-title">
-                    <img _show="message.image" src="$message.image" class="" />
                     $message.title
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div _show="message.text" class="modal-body">
                 <p>
                     $message.text
                 </p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
-                    $texts.buttons_Close
+                    $text('Close')
                 </button>
             </div>
         </div>
@@ -28,7 +28,7 @@
 <div  _show="loading.show" class="loader-holder">
     <div class="d-flex align-items-center">
         <div class="spinner-border me-3 text-primary" role="status" aria-hidden="true"></div>
-        <strong>Loading...</strong>
+        <strong>$loading.text</strong>
     </div>
 </div>
 
