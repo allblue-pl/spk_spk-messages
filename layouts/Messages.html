@@ -39,7 +39,14 @@
     <div class="modal-dialog modal-choice">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">$confirmation.text</h5>
+                <h5 _show="confirmation.title" class="modal-title">$confirmation.title</h5>
+
+                <div _show="confirmation.text" class="modal-body">
+                    <p>
+                        $message.text
+                    </p>
+                </div>
+
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-footer">
