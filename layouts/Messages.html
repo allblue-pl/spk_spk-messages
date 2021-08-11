@@ -3,11 +3,9 @@
 <div  _elem="msg" class="modal fade" tabindex="-1">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
-            <div class="modal-image">
-                <img _show="message.image" src="$message.image" />
-            </div>
-            <div _show="message.title" class="modal-header">
-                <h5 class="modal-title">
+            <div class="modal-header">
+                <img _show="message.image" class="modal-image" src="$message.image" />
+                <h5  _show="message.title" class="modal-title">
                     $message.title
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
