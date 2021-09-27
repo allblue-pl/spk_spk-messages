@@ -14,7 +14,8 @@ export default class Messages extends spocky.Module
 
     constructor(presets = {}, layoutClass = null)
     { super();
-        js0.args(arguments, [ js0.RawObject, js0.Default ], [ spocky.Layout, js0.Default(null) ]);
+        js0.args(arguments, [ js0.RawObject, js0.Default ], 
+                [ spocky.Layout, js0.Null, js0.Default ]);
         js0.typeE(presets, js0.Preset({
             modulePath: [ 'string', js0.Default('/dev/node_modules/spk-messages/'), ],
             images: [ js0.Preset({
@@ -201,6 +202,24 @@ export default class Messages extends spocky.Module
         this.showMessage(this._images.success, title, text, fn);
     }
 
+    showNotification(message, faIcon = null)
+    {
+        this._l.$fields.notification = {
+            faIcon: faIcon === null ? 'fa-info' : faIcon,
+            message: message,
+        };
+
+        $(this._l.$elems.notification).fadeIn(() => {
+            setTimeout(() => {
+                $(this._l.$elems.notification).fadeOut(() => {
+                    this._l.$fields.notification = {
+                        faIcon: '',
+                        message: '',
+                    };
+                });
+            }, 1500);
+        });
+    }
 
     _createElems()
     {
