@@ -12,7 +12,7 @@ const
 export default class Messages extends spocky.Module
 {
 
-    constructor(presets = {}, layoutClass = null)
+    constructor(presets = {}, layout = null)
     { super();
         js0.args(arguments, [ js0.RawObject, js0.Default ], 
                 [ spocky.Layout, js0.Null, js0.Default ]);
@@ -29,9 +29,6 @@ export default class Messages extends spocky.Module
             }) ],
         }));
 
-        if (layoutClass === null)
-            layoutClass = $layouts.Messages;
-
         this.loading_MinTime = 500;
         this.loading_Timeout = 500;
 
@@ -46,7 +43,7 @@ export default class Messages extends spocky.Module
         this._confirmation = null;
         this._confirmation_Fn = null;
 
-        this._l = new layoutClass();
+        this._l = layout === null ? new $layouts.Messages() : layout;
 
         this._l.$fields.loading.image = this._images.loading;
         this._l.$fields.text = (text) => {
