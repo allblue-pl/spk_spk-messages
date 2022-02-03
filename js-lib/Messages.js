@@ -19,15 +19,20 @@ export default class Messages extends spocky.Module
         js0.typeE(presets, js0.Preset({
             modulePath: [ 'string', js0.Default('/dev/node_modules/spk-messages/'), ],
             images: [ js0.Preset({
-                loading: [ 'string', js0.Default('/dev/node_modules/spk-messages/images/loading.gif') ],
-                success: [ 'string', js0.Default('/dev/node_modules/spk-messages/images/success.png') ],
-                failure: [ 'string', js0.Default('/dev/node_modules/spk-messages/images/failure.png') ],
-            }), js0.Default({
-                loading: '/dev/node_modules/spk-messages/images/loading.gif',
-                success: '/dev/node_modules/spk-messages/images/success.png',
-                failure: '/dev/node_modules/spk-messages/images/failure.png',
-            }) ],
+                loading: [ 'string', js0.NotSet, js0.Default(js0.NotSet), ],
+                success: [ 'string', js0.NotSet, js0.Default(js0.NotSet), ],
+                failure: [ 'string', js0.NotSet, js0.Default(js0.NotSet), ],
+            }), js0.Default({}) ],
         }));
+
+        console.log(presets);
+
+        if (presets.images.loading === js0.NotSet)
+            presets.images.loading = null;
+        if (presets.images.success === js0.NotSet)
+            presets.images.success = presets.modulePath + 'images/success.png';
+        if (presets.images.failure === js0.NotSet)
+            presets.images.failure = presets.modulePath + 'images/failure.png';
 
         this.loading_MinTime = 500;
         this.loading_Timeout = 500;
