@@ -25,8 +25,6 @@ export default class Messages extends spocky.Module
             }), js0.Default({}) ],
         }));
 
-        console.log(presets);
-
         if (presets.images.loading === js0.NotSet)
             presets.images.loading = null;
         if (presets.images.success === js0.NotSet)
@@ -191,7 +189,7 @@ export default class Messages extends spocky.Module
     showMessage_Failure(title = '', text = '', fn = null)
     {
         js0.args(arguments, [ 'string', js0.Default, ], [ 'string', js0.Default, ], 
-                [ js0.Default, 'function' ]);
+                [ 'function', js0.Null, js0.Default ]);
 
         this.showMessage(this._images.failure, title, text, fn);
     }
@@ -199,7 +197,7 @@ export default class Messages extends spocky.Module
     showMessage_Success(title = '', text = '', fn = null)
     {
         js0.args(arguments, [ 'string', js0.Default, ], [ 'string', js0.Default, ], 
-                [ js0.Default, 'function' ]);
+                [ 'function', js0.Null, js0.Default ]);
 
         this.showMessage(this._images.success, title, text, fn);
     }
