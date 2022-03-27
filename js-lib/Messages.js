@@ -231,13 +231,18 @@ export default class Messages extends spocky.Module
             this.hideMessage();
         });
 
-        this._l.$elems.yes.addEventListener('click', (evt) => {
+        this._l.$elems.Confirmation_Close.addEventListener('click', (evt) => {
+            evt.preventDefault();
+            this.hideConfirmation(false);
+        });
+        
+        this._l.$elems.Confirmation_Yes.addEventListener('click', (evt) => {
             evt.preventDefault();
 
             this.hideConfirmation(true);
         });
 
-        this._l.$elems.no.addEventListener('click', (evt) => {
+        this._l.$elems.Confirmation_No.addEventListener('click', (evt) => {
             evt.preventDefault();
             this.hideConfirmation(false);
         });
