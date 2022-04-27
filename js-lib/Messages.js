@@ -88,6 +88,8 @@ export default class Messages extends spocky.Module
     {
         this._loading = false;
 
+        // console.log(new Error());
+
         let loadingTimeLeft = 1;
         if (this._loading_Start !== null) {
             loadingTimeLeft = Math.max(this.loading_MinTime - 
@@ -145,6 +147,8 @@ export default class Messages extends spocky.Module
     {
         js0.args(arguments, [ 'string', js0.Default ],
                 [ 'boolean', js0.Default ]);
+
+        // console.log(new Error());
 
         this._loading = true;
         if (instant) {
