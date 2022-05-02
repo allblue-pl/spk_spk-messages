@@ -88,7 +88,7 @@ export default class Messages extends spocky.Module
     {
         this._loading = false;
 
-        // console.log(new Error());
+        // console.log('Hide', new Error());
 
         let loadingTimeLeft = 1;
         if (this._loading_Start !== null) {
@@ -148,7 +148,9 @@ export default class Messages extends spocky.Module
         js0.args(arguments, [ 'string', js0.Default ],
                 [ 'boolean', js0.Default ]);
 
-        // console.log(new Error());
+        // instant = true;
+
+        // console.log('Show', new Error());
 
         this._loading = true;
         if (instant) {
@@ -161,16 +163,28 @@ export default class Messages extends spocky.Module
             return;
         }
 
-        setTimeout(() => {
+        let t0 = (new Date()).getTime();
+        let checkShowLoading = () => {
             if (!this._loading)
                 return;
+
+            let t1 = (new Date()).getTime() - t0;
+            if (t1 < this.loading_Timeout) {
+                setTimeout(() => {
+                    checkShowLoading();
+                }, 50);
+                return;
+            }
 
             this._loading_Start = (new Date()).getTime();
             this._l.$fields.loading = {
                 text: text,
                 show: true,
             };
-        }, this.loading_Timeout);
+        };
+        setTimeout(() => {
+            checkShowLoading();
+        }, 50);
     }
 
     showMessage(imageSrc, title = '', text = '', fn = null)
