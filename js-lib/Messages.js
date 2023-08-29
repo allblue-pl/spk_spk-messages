@@ -244,10 +244,10 @@ export default class Messages extends spocky.Module
         this._msg = new bootstrap.Modal(this._l.$elems.msg);
         this._confirmation = new bootstrap.Modal(this._l.$elems.confirmation);
 
-        this._l.$elems.msg.addEventListener('click', (evt) => {
-            evt.preventDefault();
-            this.hideMessage();
-        });
+        // this._l.$elems.msg.addEventListener('click', (evt) => {
+        //     evt.preventDefault();
+        //     this.hideMessage();
+        // });
 
         this._l.$elems.Confirmation_Close.addEventListener('click', (evt) => {
             evt.preventDefault();
