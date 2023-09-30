@@ -48,8 +48,8 @@ export default class Messages extends spocky.Module
 
         this._l = layout === null ? new $layouts.Messages() : layout;
 
-        this._l.$fields.loading.image = this._images.loading;
-        this._l.$fields.text = (text) => {
+        this._l.$fields.Loading.Image = this._images.loading;
+        this._l.$fields.Text = (text) => {
             return spkMessages.text(text);
         }
 
@@ -71,11 +71,11 @@ export default class Messages extends spocky.Module
     {
         this._confirmation.hide();
 
-        this._l.$fields.confirmation = {
-            title: '',
-            text: '',
-            yes: '',
-            no: '',
+        this._l.$fields.Confirmation = {
+            Title: '',
+            Text: '',
+            Yes: '',
+            No: '',
         };
 
         if (this._confirmation_Fn !== null) {
@@ -101,9 +101,9 @@ export default class Messages extends spocky.Module
                 return;
 
             this._loading_Start = null;
-            this._l.$fields.loading = {
-                show: false,
-                text: '',
+            this._l.$fields.Loading = {
+                Show: false,
+                Text: '',
             };
         }, loadingTimeLeft);
 
@@ -113,10 +113,10 @@ export default class Messages extends spocky.Module
     {
         this._msg.hide();
 
-        this._l.$fields.message = {
-            image: '',
-            title: '',
-            text: '',
+        this._l.$fields.Message = {
+            Image: '',
+            Title: '',
+            Text: '',
         };
 
         if (this._msg_Fn !== null) {
@@ -133,11 +133,11 @@ export default class Messages extends spocky.Module
 
         this._confirmation_Fn = fn;
 
-        this._l.$fields.confirmation = {
-            title: title,
-            text: text,
-            yes: yesText,
-            no: noText,
+        this._l.$fields.Confirmation = {
+            Title: title,
+            Text: text,
+            Yes: yesText,
+            No: noText,
         };
 
         this._confirmation.show();
@@ -155,9 +155,9 @@ export default class Messages extends spocky.Module
         this._loading = true;
         if (instant) {
             this._loading_Start = (new Date()).getTime();
-            this._l.$fields.loading = {
-                text: text,
-                show: true,
+            this._l.$fields.Loading = {
+                Text: text,
+                Show: true,
             };
 
             return;
@@ -177,9 +177,9 @@ export default class Messages extends spocky.Module
             }
 
             this._loading_Start = (new Date()).getTime();
-            this._l.$fields.loading = {
-                text: text,
-                show: true,
+            this._l.$fields.Loading = {
+                Text: text,
+                Show: true,
             };
         };
         setTimeout(() => {
@@ -195,10 +195,10 @@ export default class Messages extends spocky.Module
         this._msg_Fn = fn;
         this._enabled = false;
 
-        this._l.$fields.message = {
-            image: imageSrc,
-            title: title,
-            text: text,
+        this._l.$fields.Message = {
+            Image: imageSrc,
+            Title: title,
+            Text: text,
         };
 
         this._msg.show();
@@ -222,17 +222,17 @@ export default class Messages extends spocky.Module
 
     showNotification(message, faIcon = null)
     {
-        this._l.$fields.notification = {
-            faIcon: faIcon === null ? 'fa-info' : faIcon,
-            message: message,
+        this._l.$fields.Notification = {
+            FaIcon: faIcon === null ? 'fa-info' : faIcon,
+            Message: message,
         };
 
-        $(this._l.$elems.notification).fadeIn(() => {
+        $(this._l.$elems.Notification).fadeIn(() => {
             setTimeout(() => {
-                $(this._l.$elems.notification).fadeOut(() => {
-                    this._l.$fields.notification = {
-                        faIcon: '',
-                        message: '',
+                $(this._l.$elems.Notification).fadeOut(() => {
+                    this._l.$fields.Notification = {
+                        FaIcon: '',
+                        Message: '',
                     };
                 });
             }, 1500);
@@ -241,13 +241,38 @@ export default class Messages extends spocky.Module
 
     _createElems()
     {
-        this._msg = new bootstrap.Modal(this._l.$elems.msg);
-        this._confirmation = new bootstrap.Modal(this._l.$elems.confirmation);
+        this._msg = new bootstrap.Modal(this._l.$elems.Message, {
+            backdrop: 'static',
+            keyboard: false,
+        });
+        this._confirmation = new bootstrap.Modal(this._l.$elems.Confirmation, {
+            backdrop: 'static',
+            keyboard: false,
+        });
 
         // this._l.$elems.msg.addEventListener('click', (evt) => {
         //     evt.preventDefault();
         //     this.hideMessage();
         // });
+
+        this._l.$elems.Message.addEventListener('click', (evt) => {
+            evt.preventDefault();
+
+            if (evt.target !== this._l.$elems.Message)
+                return;
+
+            this.hideMessage();
+        });
+
+        this._l.$elems.Message_Close.addEventListener('click', (evt) => {
+            evt.preventDefault();
+            this.hideMessage();
+        });
+
+        this._l.$elems.Message_Confirm.addEventListener('click', (evt) => {
+            evt.preventDefault();
+            this.hideMessage();
+        });
 
         this._l.$elems.Confirmation_Close.addEventListener('click', (evt) => {
             evt.preventDefault();

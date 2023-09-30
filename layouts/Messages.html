@@ -1,23 +1,25 @@
 
 <!-- Static message -->
-<div  _elem="msg" class="modal fade" tabindex="-1">
+<div _elem="Message" class="modal fade" tabindex="-1">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <img _show="message.image" class="modal-image" src="$message.image" />
-                <h5  _show="message.title" class="modal-title">
-                    $message.title
+                <img _show="Message.Image" class="modal-image" src="$Message.Image" />
+                <h5  _show="Message.Title" class="modal-title">
+                    $Message.Title
                 </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button _elem="Message_Close" type="button" class="btn-close" 
+                        aria-label="Close"></button>
             </div>
-            <div _show="message.text" class="modal-body">
+            <div _show="Message.Text" class="modal-body">
                 <p>
-                    $message.text
+                    $Message.Text
                 </p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
-                    $text('Close')
+                <button _elem="Message_Confirm" type="button" 
+                        class="btn btn-primary">
+                    $Text('Close')
                 </button>
             </div>
         </div>
@@ -25,41 +27,44 @@
 </div>
 
 <!-- Loading -->
-<div _show="loading.show" class="loader-holder">
-    <h3 _elem="Test"></h3>
+<div _show="Loading.Show" class="loader-holder">
+    <h3></h3>
     <div class="d-flex align-items-center">
         <div class="spinner-border me-3 text-primary" role="status" aria-hidden="true"></div>
-        <strong>$loading.text</strong>
+        <strong>$Loading.Text</strong>
     </div>
 </div>
 
 <!-- Dialog -->
-<div _elem="confirmation" class="modal fade" tabindex="-1">
+<div _elem="Confirmation" class="modal fade" tabindex="-1">
     <div class="modal-dialog modal-choice">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 _show="confirmation.title" class="modal-title">$confirmation.title</h5>
-
-                <div _show="confirmation.text" class="modal-body">
-                    <p>
-                        $message.text
-                    </p>
-                </div>
-
-                <button _elem="Confirmation_Close" type="button" class="btn-close" aria-label="Close"></button>
+                <h5 _show="Confirmation.Title" class="modal-title">
+                    $Confirmation.Title
+                </h5>
+                <button _elem="Confirmation_Close" type="button" 
+                        class="btn-close" aria-label="Close"></button>
+            </div>
+            <div _show="Confirmation.Text" class="modal-body">
+                <p>
+                    $Confirmation.Text
+                </p>
             </div>
             <div class="modal-footer">
                 <div class="row">
                     <div class="col">
-                        <button _elem="Confirmation_Yes" type="button" class="btn btn-secondary w-100">
+                        <button _elem="Confirmation_Yes" type="button" 
+                                class="btn btn-secondary w-100">
                             <i class="fa fa-check pe-2"> </i>
-                            $confirmation.yes
+                            $Confirmation.Yes
                         </button>
                     </div>
                     <div class="col">
-                        <button _elem="Confirmation_No" type="button" class="btn btn-primary w-100">
+                        <button _elem="Confirmation_No" type="button" 
+                                class="btn btn-primary w-100">
                             <i class="fa fa-times pe-2"> </i>
-                            $confirmation.no
+                            $Confirmation.No
                         </button>  
                     </div>
                 </div>
@@ -68,8 +73,8 @@
     </div>
 </div>
 
-<div _elem="notification" class="notification-holder" style="display: none;">
+<div _elem="Notification" class="notification-holder" style="display: none;">
     <div class="notification-bg bg-light">
-        <i class="fas $notification.faIcon"></i>&nbsp;&nbsp;$notification.message
+        <i class="fas $Notification.FaIcon"></i>&nbsp;&nbsp;$Notification.Message
     </div>
 </div>
