@@ -12,14 +12,27 @@ class spkMessages_Class
     }
 
 
+    get debug() {
+        return this._debug;
+    }
+
+
     constructor()
     {
+        this._debug = false;
         this._textFn = (text) => {
             return this._texts[text];
         };  
         this._texts = {
             Close: 'Close',
         };
+    }
+
+    setDebug(debug)
+    {
+        js0.args(arguments, 'boolean');
+
+        this._debug = debug;
     }
 
     setTextFn(textFn)

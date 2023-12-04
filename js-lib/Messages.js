@@ -192,6 +192,9 @@ export default class Messages extends spocky.Module
         js0.args(arguments, 'string', [ 'string', js0.Default ], 
                 [ 'string', js0.Default, ], [ 'function', js0.Null, js0.Default ]);
 
+        if (spkMessages.debug)
+            console.log('spkMessages.showMessage', new Error());
+
         this._msg_Fn = fn;
         this._enabled = false;
 
