@@ -45,6 +45,7 @@ export default class Messages extends spocky.Module
 
         this._confirmation = null;
         this._confirmation_Fn = null;
+        this._confirmation_Result = null;
 
         this._l = layout === null ? new $layouts.Messages() : layout;
 
@@ -69,19 +70,8 @@ export default class Messages extends spocky.Module
 
     hideConfirmation(result = false)
     {
+        this._confirmation_Result = result;
         this._confirmation.hide();
-
-        this._l.$fields.Confirmation = {
-            Title: '',
-            Text: '',
-            Yes: '',
-            No: '',
-        };
-
-        if (this._confirmation_Fn !== null) {
-            this._confirmation_Fn(result);
-            this._confirmation_Fn = null;
-        }
     }
 
     hideLoading()
@@ -141,6 +131,15 @@ export default class Messages extends spocky.Module
         };
 
         this._confirmation.show();
+    }
+
+    async showConfirmation_Async(title, text, yesText, noText)
+    {
+        return new Promise((resolve) => {
+            this.showConfirmation(title, text, yesText, noText, (result) => {
+                resolve(result);
+            });
+        });
     }
 
     showLoading(text = '', instant = false)
@@ -251,6 +250,20 @@ export default class Messages extends spocky.Module
         this._confirmation = new bootstrap.Modal(this._l.$elems.Confirmation, {
             backdrop: 'static',
             keyboard: false,
+        });
+        this._l.$elems.Confirmation.addEventListener('hidden.bs.modal', (e) => {
+            this._l.$fields.Confirmation = {
+                Title: '',
+                Text: '',
+                Yes: '',
+                No: '',
+            };
+
+            if (this._confirmation_Fn !== null)
+                this._confirmation_Fn(this._confirmation_Result);
+
+            this._confirmation_Fn = null;
+            this._confirmation_Result = null;
         });
 
         // this._l.$elems.msg.addEventListener('click', (evt) => {
