@@ -135,6 +135,8 @@ export default class Messages extends spocky.Module
 
     async showConfirmation_Async(title, text, yesText, noText)
     {
+        js0.args(arguments, 'string', 'string', 'string', 'string');
+
         return new Promise((resolve) => {
             this.showConfirmation(title, text, yesText, noText, (result) => {
                 resolve(result);
@@ -206,6 +208,18 @@ export default class Messages extends spocky.Module
         this._msg.show();
     }
 
+    async showMessage_Async(imageSrc, title = '', text = '')
+    {
+        js0.args(arguments, 'string', [ 'string', js0.Default ], 
+            [ 'string', js0.Default, ]);
+
+        return new Promise((resolve) => {
+            this.showMessage(imageSrc, title, text, () => {
+                resolve();
+            });
+        });
+    }
+
     showMessage_Failure(title = '', text = '', fn = null)
     {
         js0.args(arguments, [ 'string', js0.Default, ], [ 'string', js0.Default, ], 
@@ -214,12 +228,36 @@ export default class Messages extends spocky.Module
         this.showMessage(this._images.failure, title, text, fn);
     }
 
+    showMessage_Failure_Async(title = '', text = '')
+    {
+        js0.args(arguments, [ 'string', js0.Default, ], 
+                [ 'string', js0.Default, ]);
+
+        return new Promise((resolve) => {
+            this.showMessage_Failure(title, text, () => {
+                resolve();
+            });
+        });
+    }
+
     showMessage_Success(title = '', text = '', fn = null)
     {
         js0.args(arguments, [ 'string', js0.Default, ], [ 'string', js0.Default, ], 
                 [ 'function', js0.Null, js0.Default ]);
 
         this.showMessage(this._images.success, title, text, fn);
+    }
+
+    showMessage_Success_Async(title = '', text = '')
+    {
+        js0.args(arguments, [ 'string', js0.Default, ], 
+                [ 'string', js0.Default, ]);
+
+        return new Promise((resolve) => {
+            this.showMessage_Success(title, text, () => {
+                resolve();
+            });
+        });
     }
 
     showNotification(message, faIcon = null)
