@@ -1,7 +1,7 @@
 
 <!-- Static message -->
 <div _elem="Message" class="modal fade" tabindex="-1">
-    <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-dialog modal-choice modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <img _show="Message.Image" class="modal-image" src="$Message.Image" />
@@ -12,15 +12,23 @@
                         aria-label="Close"></button>
             </div>
             <div _show="Message.Text" class="modal-body">
-                <p>
-                    $Message.Text
-                </p>
+                <p _field="Message.Text" />
             </div>
             <div class="modal-footer">
-                <button _elem="Message_Confirm" type="button" 
-                        class="btn btn-primary">
-                    $Text('Close')
-                </button>
+                 <div class="row">
+                    <div _show="Message.ExtraButton_Text" class="col">
+                        <button _elem="Message_ExtraButton" type="button" 
+                                class="btn $Message.ExtraButton_Class w-100 lh-sm">
+                            $Message.ExtraButton_Text
+                        </button>
+                    </div>
+                    <div class="col text-end">
+                        <button _elem="Message_Confirm" type="button" 
+                                class="btn btn-primary w-100 h-100 ">
+                            $Text('Close')
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -40,6 +48,8 @@
     <div class="modal-dialog modal-choice">
         <div class="modal-content">
             <div class="modal-header">
+                <img _show="Confirmation.Image" class="modal-image" 
+                        src="$Confirmation.Image" />
                 <h5 _show="Confirmation.Title" class="modal-title">
                     $Confirmation.Title
                 </h5>
@@ -47,9 +57,7 @@
                         class="btn-close" aria-label="Close"></button>
             </div>
             <div _show="Confirmation.Text" class="modal-body">
-                <p>
-                    $Confirmation.Text
-                </p>
+                <p _field="Confirmation.Text" />
             </div>
             <div class="modal-footer">
                 <div class="row">

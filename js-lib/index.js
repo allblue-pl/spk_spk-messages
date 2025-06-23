@@ -17,8 +17,7 @@ class spkMessages_Class
     }
 
 
-    constructor()
-    {
+    constructor() {
         this._debug = false;
         this._textFn = (text) => {
             return this._texts[text];
@@ -28,22 +27,19 @@ class spkMessages_Class
         };
     }
 
-    setDebug(debug)
-    {
+    setDebug(debug) {
         js0.args(arguments, 'boolean');
 
         this._debug = debug;
     }
 
-    setTextFn(textFn)
-    {
+    setTextFn(textFn) {
         js0.args(arguments, 'function');
 
         this._textFn = textFn;
     }
 
-    text(text)
-    {
+    text(text) {
         js0.args(arguments, 'string');
 
         return this._textFn(text);

@@ -12,8 +12,7 @@ const
 export default class Messages extends spocky.Module
 {
 
-    constructor(presets = {}, layout = null)
-    { super();
+    constructor(presets = {}, layout = null) { super();
         js0.args(arguments, [ js0.RawObject, js0.Default ], 
                 [ spocky.Layout, js0.Null, js0.Default ]);
         js0.typeE(presets, js0.Preset({
@@ -41,6 +40,8 @@ export default class Messages extends spocky.Module
         this._images = presets.images;
 
         this._msg = null;
+        this._msg_Result_ExtraButton = false;
+        this._msg_CloseOnBackgroundClick = true;
         this._msg_Fn = null;
 
         this._confirmation = null;
@@ -61,21 +62,45 @@ export default class Messages extends spocky.Module
         this.$view = this._l;
     }
 
-    hide()
-    {
+    getImageUri_Failure() {
+        return this._images.success;
+    }
+
+    getImageUri_Success() {
+        return this._images.failure;
+    }
+
+    hide() {
         this.hideConfirmation();
         this.hideLoading();
         this.hideMessage();
     }
 
-    hideConfirmation(result = false)
-    {
-        this._confirmation_Result = result;
-        this._confirmation.hide();
+    hideConfirmation() {
+        this._l.$fields.Confirmation = {
+            Image: null,
+            Title: '',
+            Text: '',
+            Yes: '',
+            No: '',
+        };
+
+        if (this._confirmation_Fn !== null) {
+            let fn = this._confirmation_Fn;;
+            this._confirmation_Fn = null;
+
+            let result = this._confirmation_Result;
+            this._confirmation_Result = false;
+            fn(result);
+
+            return;
+        }
+
+        this._confirmation_Fn = null;
+        this._confirmation_Result = false;
     }
 
-    hideLoading()
-    {
+    hideLoading() {
         this._loading = false;
 
         // console.log('Hide', new Error());
@@ -99,31 +124,55 @@ export default class Messages extends spocky.Module
 
     }
 
-    hideMessage()
-    {
-        this._msg.hide();
+    hideMessage() {
+        js0.args(arguments, [ 'boolean', js0.Default ]);
 
         this._l.$fields.Message = {
             Image: '',
             Title: '',
             Text: '',
+            ExtraButton_Text: '',
+            ExtraButton_Class: '',
         };
 
-        if (this._msg_Fn !== null) {
+        if (this._msg_Result_ExtraButton) {
+            if (this._msgs_ExtraButtonFn !== null) {
+                let extraButtonFn = this._msgs_ExtraButtonFn;
+
+                this._msg_Result_ExtraButton = false;
+                this._msg_Fn = null;
+                this._msgs_ExtraButtonFn = null;
+                this._msg_CloseOnBackgroundClick = true;
+
+                extraButtonFn();
+                return;
+            }
+        } else if (this._msg_Fn !== null) {
             let msgFn = this._msg_Fn;
+
+            this._msg_Result_ExtraButton = false;
             this._msg_Fn = null;
+            this._msgs_ExtraButtonFn = null;
+            this._msg_CloseOnBackgroundClick = true;
+
             msgFn();
+            return;
         }
+
+        this._msg_Result_ExtraButton = false;
+        this._msg_Fn = null;
+        this._msgs_ExtraButtonFn = null;
+        this._msg_CloseOnBackgroundClick = true;
     }
 
-    showConfirmation(title, text, yesText, noText, fn = null)
-    {
+    showConfirmation(title, text, yesText, noText, fn = null) {
         js0.args(arguments, 'string', 'string', 'string', 'string', 
                 [ js0.Default, js0.Null, 'function' ])
 
         this._confirmation_Fn = fn;
 
         this._l.$fields.Confirmation = {
+            Image: null,
             Title: title,
             Text: text,
             Yes: yesText,
@@ -133,21 +182,41 @@ export default class Messages extends spocky.Module
         this._confirmation.show();
     }
 
-    async showConfirmation_Async(title, text, yesText, noText)
-    {
-        js0.args(arguments, 'string', 'string', 'string', 'string');
+    showConfirmationWithImage(image, title, text, yesText, noText, fn = null) {
+        js0.args(arguments, [ 'string', js0.Null ], 'string', 'string', 'string', 'string', 
+                [ js0.Default, js0.Null, 'function' ])
+
+        this._confirmation_Fn = fn;
+
+        this._l.$fields.Confirmation = {
+            Image: image,
+            Title: title,
+            Text: text,
+            Yes: yesText,
+            No: noText,
+        };
+
+        this._confirmation.show();
+    }
+
+    async showConfirmation_Async(title, text, yesText, noText) {
+        return await this.showConfirmationWithImage_Async(null, title, text, 
+                yesText, noText);
+    }
+
+    async showConfirmationWithImage_Async(image, title, text, yesText, noText) {
+        js0.args(arguments, [ 'string', js0.Null ], 'string', 'string', 'string', 'string');
 
         return new Promise((resolve) => {
-            this.showConfirmation(title, text, yesText, noText, (result) => {
+            this.showConfirmationWithImage(image, title, text, yesText, noText, 
+                    (result) => {
                 resolve(result);
             });
         });
     }
 
-    showLoading(text = '', instant = false)
-    {
-        js0.args(arguments, [ 'string', js0.Default ],
-                [ 'boolean', js0.Default ]);
+    showLoading(text = '', instant = false) {
+        js0.args(arguments, [ 'string', js0.Default ], [ 'boolean', js0.Default ]);
 
         // instant = true;
 
@@ -188,48 +257,75 @@ export default class Messages extends spocky.Module
         }, 50);
     }
 
-    showMessage(imageSrc, title = '', text = '', fn = null)
-    {
-        js0.args(arguments, 'string', [ 'string', js0.Default ], 
-                [ 'string', js0.Default, ], [ 'function', js0.Null, js0.Default ]);
+    showMessage(title = '', text = '', presets = {}) {
+        js0.args(arguments, [ 'string', js0.Default ], [ 'string', js0.Default ],
+                [ js0.RawObject, js0.Default ]);
+        js0.typeE(presets, js0.Preset({
+            image: [ 'string', js0.Null, js0.Default(null) ],  
+            afterClose: [ 'function', js0.Null, js0.Default(null) ], 
+            extraButton: [ js0.Preset({
+                text: [ 'string', js0.Null, js0.Default('') ], 
+                class: [ 'string', js0.Default('btn-secondary') ], 
+                afterClick: [ 'function', js0.Null, js0.Default(null) ], 
+            }), js0.Default({}) ],
+            closeOnBackgroundClick: [ 'boolean', js0.Default(true) ],
+        }));
 
         if (spkMessages.debug)
             console.log('spkMessages.showMessage', new Error());
 
-        this._msg_Fn = fn;
-        this._enabled = false;
+        this._msg_Fn = presets.afterClose;
+        this._msgs_ExtraButtonFn = presets.extraButton.afterClick;
+        this._msg_CloseOnBackgroundClick = presets.closeOnBackgroundClick;
 
         this._l.$fields.Message = {
-            Image: imageSrc,
+            Image: presets.image,
             Title: title,
             Text: text,
+            ExtraButton_Text: presets.extraButton.text,
+            ExtraButton_Class: presets.extraButtonClass,
         };
 
         this._msg.show();
     }
 
-    async showMessage_Async(imageSrc, title = '', text = '')
-    {
-        js0.args(arguments, 'string', [ 'string', js0.Default ], 
-            [ 'string', js0.Default, ]);
+    async showMessage_Async(title = '', text = '', presets = {}) {
+        js0.args(arguments, [ 'string', js0.Default ], [ 'string', js0.Default ],
+                [ js0.RawObject, js0.Default ]);
+        js0.typeE(presets, js0.Preset({
+            image: [ 'string', js0.Null, js0.Default(null) ],  
+            afterClose: [ 'function', js0.Null, js0.Default(null) ], 
+            extraButton: [ js0.Preset({
+                text: [ 'string', js0.Null, js0.Default('') ], 
+                class: [ 'string', js0.Default('btn-secondary') ], 
+                afterClick: [ 'function', js0.Null, js0.Default(null) ], 
+            }), js0.Default({}) ],
+            closeOnBackgroundClick: [ 'boolean', js0.Default(true) ],
+        }));
 
         return new Promise((resolve) => {
-            this.showMessage(imageSrc, title, text, () => {
+            presets.afterClose = () => { resolve(); };
+            let extraButton_AfterClick = presets.afterClick;
+            presets.extraButton.afterClick = () => {
+                extraButton_AfterClick();
                 resolve();
-            });
+            };
+
+            this.showMessage(title, text, presets);
         });
     }
 
-    showMessage_Failure(title = '', text = '', fn = null)
-    {
+    showMessage_Failure(title = '', text = '', fn = null) {
         js0.args(arguments, [ 'string', js0.Default, ], [ 'string', js0.Default, ], 
                 [ 'function', js0.Null, js0.Default ]);
 
-        this.showMessage(this._images.failure, title, text, fn);
+        this.showMessage(title, text, {
+            image: this._images.failure, 
+            afterClose: fn,
+        });
     }
 
-    showMessage_Failure_Async(title = '', text = '')
-    {
+    showMessage_Failure_Async(title = '', text = '') {
         js0.args(arguments, [ 'string', js0.Default, ], 
                 [ 'string', js0.Default, ]);
 
@@ -240,16 +336,17 @@ export default class Messages extends spocky.Module
         });
     }
 
-    showMessage_Success(title = '', text = '', fn = null)
-    {
+    showMessage_Success(title = '', text = '', fn = null) {
         js0.args(arguments, [ 'string', js0.Default, ], [ 'string', js0.Default, ], 
                 [ 'function', js0.Null, js0.Default ]);
 
-        this.showMessage(this._images.success, title, text, fn);
+        this.showMessage(title, text, {
+            image: this._images.success, 
+            afterClose: fn,
+        });
     }
 
-    showMessage_Success_Async(title = '', text = '')
-    {
+    showMessage_Success_Async(title = '', text = '') {
         js0.args(arguments, [ 'string', js0.Default, ], 
                 [ 'string', js0.Default, ]);
 
@@ -260,8 +357,7 @@ export default class Messages extends spocky.Module
         });
     }
 
-    showNotification(message, faIcon = null)
-    {
+    showNotification(message, faIcon = null) {
         this._l.$fields.Notification = {
             FaIcon: faIcon === null ? 'fa-info' : faIcon,
             Message: message,
@@ -279,29 +375,20 @@ export default class Messages extends spocky.Module
         });
     }
 
-    _createElems()
-    {
+    _createElems() {
         this._msg = new bootstrap.Modal(this._l.$elems.Message, {
             backdrop: 'static',
             keyboard: false,
+        });
+        this._l.$elems.Message.addEventListener('hidden.bs.modal', (e) => {
+            this.hideMessage();
         });
         this._confirmation = new bootstrap.Modal(this._l.$elems.Confirmation, {
             backdrop: 'static',
             keyboard: false,
         });
         this._l.$elems.Confirmation.addEventListener('hidden.bs.modal', (e) => {
-            this._l.$fields.Confirmation = {
-                Title: '',
-                Text: '',
-                Yes: '',
-                No: '',
-            };
-
-            if (this._confirmation_Fn !== null)
-                this._confirmation_Fn(this._confirmation_Result);
-
-            this._confirmation_Fn = null;
-            this._confirmation_Result = null;
+            this.hideConfirmation();
         });
 
         // this._l.$elems.msg.addEventListener('click', (evt) => {
@@ -315,33 +402,45 @@ export default class Messages extends spocky.Module
             if (evt.target !== this._l.$elems.Message)
                 return;
 
-            this.hideMessage();
+            if (!this._msg_CloseOnBackgroundClick)
+                return;
+
+            this._msg_Result_ExtraButton = false;
+            this._msg.hide();
         });
 
         this._l.$elems.Message_Close.addEventListener('click', (evt) => {
             evt.preventDefault();
-            this.hideMessage();
+            this._msg_Result_ExtraButton = false;
+            this._msg.hide();
         });
-
         this._l.$elems.Message_Confirm.addEventListener('click', (evt) => {
             evt.preventDefault();
-            this.hideMessage();
+            this._msg_Result_ExtraButton = false;
+            this._msg.hide();
+        });
+        this._l.$elems.Message_ExtraButton.addEventListener('click', (evt) => {
+            evt.preventDefault();
+            this._msg_Result_ExtraButton = true;
+            this._msg.hide();
         });
 
         this._l.$elems.Confirmation_Close.addEventListener('click', (evt) => {
             evt.preventDefault();
-            this.hideConfirmation(false);
+            this._confirmation_Result = false;
+            this._confirmation.hide();
         });
         
         this._l.$elems.Confirmation_Yes.addEventListener('click', (evt) => {
             evt.preventDefault();
-
-            this.hideConfirmation(true);
+            this._confirmation_Result = true;
+            this._confirmation.hide();
         });
 
         this._l.$elems.Confirmation_No.addEventListener('click', (evt) => {
             evt.preventDefault();
-            this.hideConfirmation(false);
+            this._confirmation_Result = false;
+            this._confirmation.hide();
         });
     }
 
