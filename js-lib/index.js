@@ -4,8 +4,7 @@ const
     js0 = require('js0')
 ;
 
-class spkMessages_Class
-{
+class spkMessages_Class {
 
     get Messages() {
         return require('./Messages');

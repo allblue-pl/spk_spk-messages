@@ -9,9 +9,7 @@ const
     $layouts = require('./$layouts')
 ;
 
-export default class Messages extends spocky.Module
-{
-
+export default class Messages extends spocky.Module {
     constructor(presets = {}, layout = null) { super();
         js0.args(arguments, [ js0.RawObject, js0.Default ], 
                 [ spocky.Layout, js0.Null, js0.Default ]);
