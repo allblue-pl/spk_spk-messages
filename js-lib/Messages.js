@@ -425,7 +425,7 @@ export default class Messages extends spocky.Module {
 
         this._l.$elems.Confirmation_Close.addEventListener('click', (evt) => {
             evt.preventDefault();
-            this._confirmation_Result = false;
+            this._confirmation_Result = null;
             this._confirmation.hide();
         });
         
