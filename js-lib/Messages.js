@@ -255,6 +255,10 @@ export default class Messages extends spocky.Module {
         }, 50);
     }
 
+    showLoading_Instant(text = '') {
+        this.showLoading(text, true);
+    }
+
     showMessage(title = '', text = '', presets = {}) {
         js0.args(arguments, [ 'string', js0.Default ], [ 'string', js0.Default ],
                 [ js0.RawObject, js0.Default ]);
