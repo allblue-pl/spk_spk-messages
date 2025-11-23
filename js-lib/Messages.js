@@ -101,7 +101,8 @@ export default class Messages extends spocky.Module {
     hideLoading() {
         this._loading = false;
 
-        // console.log('Hide', new Error());
+        if (spkMessages.debug)
+            console.log('spkMessages.hideLoading', new Error());
 
         let loadingTimeLeft = 1;
         if (this._loading_Start !== null) {
@@ -218,7 +219,8 @@ export default class Messages extends spocky.Module {
 
         // instant = true;
 
-        // console.log('Show', new Error());
+        if (spkMessages.debug)
+            console.log('spkMessages.showLoading', new Error());
 
         this._loading = true;
         if (instant) {
