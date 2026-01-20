@@ -1,6 +1,7 @@
 'use strict';
 
 const
+    abText = require('ab-text'),
     js0 = require('js0')
 ;
 
@@ -18,12 +19,6 @@ class spkMessages_Class {
 
     constructor() {
         this._debug = false;
-        this._textFn = (text) => {
-            return this._texts[text];
-        };  
-        this._texts = {
-            Close: 'Close',
-        };
     }
 
     setDebug(debug) {
@@ -32,16 +27,10 @@ class spkMessages_Class {
         this._debug = debug;
     }
 
-    setTextFn(textFn) {
-        js0.args(arguments, 'function');
-
-        this._textFn = textFn;
-    }
-
     text(text) {
         js0.args(arguments, 'string');
 
-        return this._textFn(text);
+        return abText.$(`spkMessages.${text}`);
     }
 
 }
