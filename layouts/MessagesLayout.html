@@ -81,8 +81,11 @@
     </div>
 </div>
 
-<div _elem="Notification" class="notification-holder" style="display: none;">
-    <div class="notification-bg bg-light">
-        <i class="fas $Notification.FaIcon"></i>&nbsp;&nbsp;$Notification.Message
-    </div>
+<div class="notification-holder">
+    <$ _repeat="Notifications:Notification">
+        <div _elem="Notification" class="notification-bg bg-light $Notification.Color clearfix" 
+                style="$Notification.Style">
+            <i _show="Notification.FaIcon" class="$Notification.FaIcon"></i>&nbsp;&nbsp;$Notification.Message
+        </div>
+    </$>
 </div>

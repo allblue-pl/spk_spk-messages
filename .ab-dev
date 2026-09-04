@@ -1,5 +1,13 @@
 {
-    "abDependencies": {
-        "ab-text": "https://github.com/allblue-pl/js_ab-text"
-    }
+  "abDependencies": {
+    "@allblue/ts0": "https://github.com/allblue-pl/js_ts0",
+    "ab-text": "https://github.com/allblue-pl/js_ab-text",
+    "spocky": "https://github.com/allblue-pl/web-js_spocky"
+},
+  "abTS": {
+    "tsconfig": ".",
+    "libs": [
+      "."
+    ]
+  }
 }

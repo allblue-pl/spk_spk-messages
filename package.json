@@ -1,4 +1,9 @@
 {
   "name": "spk-messages",
-  "version": "0.0.1"
+  "type": "module",
+  "version": "0.0.1",
+  "devDependencies": {
+    "@types/bootstrap": "5.2.*",
+    "@types/jquery": "4.0.*"
+  }
 }
