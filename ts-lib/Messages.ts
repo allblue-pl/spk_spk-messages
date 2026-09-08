@@ -387,7 +387,6 @@ export default class Messages extends Module {
             message: message,
             start: (new Date).getTime(),
         });
-        console.log(this.#notifications);
 
         if (this.#notifications.length > 1)
             return;
