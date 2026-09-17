@@ -1,18 +1,16 @@
-
 ### Spocky
 $layouts
-
 
 ### System / Windows
 Thumbs.db
 
-
 ### Local
 /.local
 
+### Typescript
+tsconfig.tsbuildinfo
 
 ### NPM
-
 # Logs
 logs
 *.log
